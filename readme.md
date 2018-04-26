@@ -7,7 +7,7 @@
 `.index.js`
 
 ```
-depositPath="xxxxxxxxx" // 默认写的是我的存放地址，你可以自定义一个地址
+depositPath="xxxxxxxxx" // 默认写的是我的存放地址，你可以自定义一个地址
 ```
 
 ```
