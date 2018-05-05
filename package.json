@@ -11,6 +11,8 @@
   "devDependencies": {
     "cheerio": "^1.0.0-rc.2",
     "fs": "0.0.1-security",
+    "mongodb": "^3.0.7",
+    "mongoose": "^5.0.17",
     "request-promise": "^4.2.2"
   },
   "dependencies": {

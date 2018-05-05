@@ -1,6 +1,6 @@
 const Meizi = require('./model.js'),
   basicPath = 'http://www.mzitu.com/hot/',
-  depositPath = '/Users/GeekBean/Documents/box/MySelf/meizi/images2/' //存放照片的地址
+  depositPath = '/Users/GeekBean/Documents/box/mycode/pachong/images5/' //存放照片的地址
 
 let page = 1,
   maxPage = 10

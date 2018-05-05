@@ -1,6 +1,7 @@
 const rp = require('request-promise'), //进入request-promise模块
   fs = require('fs'), //进入fs模块
-  cheerio = require('cheerio') //进入cheerio模块
+  cheerio = require('cheerio'), //进入cheerio模块
+  mongo = require('./mongo')
 let downloadPath, depositPath
 
 module.exports = {
@@ -85,10 +86,11 @@ module.exports = {
       var $ = cheerio.load(data.res)
       if ($('.main-image').find('img')[0]) {
         let imgSrc = $('.main-image').find('img')[0].attribs.src
+        let imgName = $('.main-image').find('img')[0].attribs.alt
         let headers = {
           Accept:
             'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-          'Accept-Encoding': 'gzip, deflate',
+          // 'Accept-Encoding': 'gzip, deflate',
           'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
           'Cache-Control': 'no-cache',
           Host: 'i.meizitu.net',
@@ -99,12 +101,16 @@ module.exports = {
           'User-Agent':
             'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.19 Safari/537.36'
         } //反防盗链，主要是 Referer的设置
+        mongo.insertData('meizi', 'meizi', { name: imgName, url: imgSrc })
         await rp({
           url: imgSrc,
           resolveWithFullResponse: true,
           headers
-        }).pipe(fs.createWriteStream(`${downloadPath}/${index}.jpg`))
-        console.log(`${downloadPath}/${index}.jpg下载成功`)
+        })
+          .pipe(fs.createWriteStream(`${downloadPath}/${index}.jpg`))
+          .on('close', function(params) {
+            console.log(`${downloadPath}/${index}.jpg下载成功`)
+          })
       } else {
         console.log(`${downloadPath}/${index}.jpg加载失败`)
       }
